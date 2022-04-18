@@ -117,6 +117,9 @@ class MainActivity : AppCompatActivity() {
     return -1
   }
 
+  // Return  1 if winner is Player 1
+  // Return  2 if winner is Player 2
+  // Return -1 if there is no current winner
   private fun getWinner(): Int {
     val t = this.tableState
 
