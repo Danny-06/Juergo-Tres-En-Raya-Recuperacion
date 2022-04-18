@@ -38,7 +38,9 @@ class MainActivity : AppCompatActivity() {
 
         this.setCell(index)
 
-        this.toggleTurn()
+        if (this.isTableFull()) {
+          this.alert("It's a tie!") { this.resetGame() }
+        }
 
         val winner = this.getWinner()
         if (winner != -1) {
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
           return@setOnClickListener
         }
 
+        this.toggleTurn()
         this.changeTurnMessage()
       }
     }
@@ -61,7 +64,8 @@ class MainActivity : AppCompatActivity() {
   private fun alert(message: String, callback: () -> Unit = { }) {
     MaterialAlertDialogBuilder(this)
     .setMessage(message)
-    .setPositiveButton("OK") {_, _ -> callback()}
+    .setPositiveButton("OK") { _, _ -> callback() }
+    .setOnCancelListener() { callback() }
     .show()
   }
 
@@ -101,6 +105,10 @@ class MainActivity : AppCompatActivity() {
     this.turn = 1
     this.changeTurnMessage()
     this.tableState.fill("")
+    this.binding.table.forEach { view ->
+      val textView = view as TextView
+      textView.text = ""
+    }
   }
 
   private fun getPlayerFromToken(token: String): Int {
@@ -149,14 +157,14 @@ class MainActivity : AppCompatActivity() {
     // - X -
     // - X -
     if (t[1] != "" && t[1] == t[1 + 3] && t[1 + 3] == t[1 + 6]) {
-      return this.getPlayerFromToken(t[0])
+      return this.getPlayerFromToken(t[1])
     }
 
     // - - X
     // - - X
     // - - X
     if (t[2] != "" && t[2] == t[2 + 3] && t[2 + 3] == t[2 + 6]) {
-      return this.getPlayerFromToken(t[0])
+      return this.getPlayerFromToken(t[2])
     }
 
 
