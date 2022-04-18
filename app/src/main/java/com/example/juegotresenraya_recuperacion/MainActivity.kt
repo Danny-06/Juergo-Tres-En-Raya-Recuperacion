@@ -1,6 +1,5 @@
 package com.example.juegotresenraya_recuperacion
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
@@ -44,12 +43,12 @@ class MainActivity : AppCompatActivity() {
 
         val winner = this.getWinner()
         if (winner != -1) {
-          this.alert("Player ${this.playerTurn} wins!!") { this.resetGame() }
+          this.alert("Player ${this.playerTurn} wins!!", false) { this.resetGame() }
           return@setOnClickListener
         }
 
         if (this.isTableFull()) {
-          this.alert("It's a tie!") { this.resetGame() }
+          this.alert("It's a tie!", false) { this.resetGame() }
           return@setOnClickListener
         }
 
@@ -60,13 +59,13 @@ class MainActivity : AppCompatActivity() {
 
   // Utility functions for the game
 
-  private fun alert(message: String, callback: () -> Unit = { }) {
+  private fun alert(message: String, cancelable: Boolean = true, callback: () -> Unit = { }) {
     MaterialAlertDialogBuilder(this)
     .setMessage(message)
     .setPositiveButton("OK") { _, _ -> callback() }
+    .setCancelable(cancelable)
     .setOnCancelListener() { callback() }
     .show()
-
   }
 
   private fun setCell(index: Int) {
@@ -118,7 +117,7 @@ class MainActivity : AppCompatActivity() {
 
   // Return  1 if winner is Player 1
   // Return  2 if winner is Player 2
-  // Return -1 if there is no current winner
+  // Return -1 if there is no winner
   private fun getWinner(): Int {
     val t = this.tableState
 
