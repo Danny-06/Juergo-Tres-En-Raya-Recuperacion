@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     this.binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(this.binding.root)
 
+
     this.changeTurnMessage()
 
     // Bind click listener for all the cells
