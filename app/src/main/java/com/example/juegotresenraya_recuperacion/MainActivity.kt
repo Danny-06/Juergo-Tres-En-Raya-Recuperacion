@@ -1,14 +1,15 @@
 package com.example.juegotresenraya_recuperacion
 
-import android.content.DialogInterface
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Message
 import android.widget.TextView
 import androidx.core.view.forEach
 import androidx.core.view.get
 import com.example.juegotresenraya_recuperacion.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlin.properties.Delegates.observable
+
 
 
 const val player1Token = "X"
@@ -20,7 +21,9 @@ class MainActivity : AppCompatActivity() {
 
   private val tableState = Array(9) { _ -> "" }
 
-  private var turn: Int = 1
+  private var playerTurn: Int by observable(1) { property, oldValue, newValue ->
+    this.changeTurnMessage(newValue)
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -29,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     setContentView(this.binding.root)
 
 
-    this.changeTurnMessage()
+    this.changeTurnMessage(this.playerTurn)
 
     // Bind click listener for all the cells
     this.binding.table.forEach { view ->
@@ -39,23 +42,18 @@ class MainActivity : AppCompatActivity() {
 
         this.setCell(index)
 
-        if (this.isTableFull()) {
-          this.alert("It's a tie!") { this.resetGame() }
-        }
-
         val winner = this.getWinner()
         if (winner != -1) {
-          if (winner == 2) {
-            this.alert("Player 2 wins!!") { this.resetGame() }
-          }
-          else
-            this.alert("Player 1 wins!!") { this.resetGame() }
+          this.alert("Player ${this.playerTurn} wins!!") { this.resetGame() }
+          return@setOnClickListener
+        }
 
+        if (this.isTableFull()) {
+          this.alert("It's a tie!") { this.resetGame() }
           return@setOnClickListener
         }
 
         this.toggleTurn()
-        this.changeTurnMessage()
       }
     }
   }
@@ -68,11 +66,12 @@ class MainActivity : AppCompatActivity() {
     .setPositiveButton("OK") { _, _ -> callback() }
     .setOnCancelListener() { callback() }
     .show()
+
   }
 
   private fun setCell(index: Int) {
     var token = player1Token
-    if (this.turn == 2) token = player2Token
+    if (this.playerTurn == 2) token = player2Token
 
     this.tableState[index] = token
     this.getCellView(index).text = token
@@ -84,13 +83,12 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun toggleTurn() {
-    if (this.turn == 2) this.turn = 1
-    else                this.turn = 2
+    if (this.playerTurn == 2) this.playerTurn = 1
+    else                      this.playerTurn = 2
   }
 
-  private fun changeTurnMessage() {
-    if (this.turn == 2) this.binding.playerTurnMessage.text = "Player 2's turn"
-    else                this.binding.playerTurnMessage.text = "Player 1's turn"
+  private fun changeTurnMessage(turn: Int) {
+    this.binding.playerTurnMessage.text = "Player ${turn}'s turn"
   }
 
   private fun isTableFull(): Boolean {
@@ -103,8 +101,8 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun resetGame() {
-    this.turn = 1
-    this.changeTurnMessage()
+    this.playerTurn = 1
+    this.changeTurnMessage(this.playerTurn)
     this.tableState.fill("")
     this.binding.table.forEach { view ->
       val textView = view as TextView
