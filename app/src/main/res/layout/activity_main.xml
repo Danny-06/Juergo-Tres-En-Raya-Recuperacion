@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="#222"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+
+    <TextView
+        android:id="@+id/playerTurnMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Player Turn"
+        android:textSize="50sp"
+    />
+
+    <GridLayout
+        android:id="@+id/table"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="3"
+    >
+
+        <TextView
+            android:textSize="50sp"
+            android:gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/cellBG"
+            android:layout_margin="10dp"
+        />
+
+        <TextView
+            android:textSize="50sp"
+            android:gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/cellBG"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:textSize="50sp"
+            android:gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/cellBG"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:textSize="50sp"
+            android:gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/cellBG"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:textSize="50sp"
+            android:gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/cellBG"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:textSize="50sp"
+            android:gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/cellBG"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:textSize="50sp"
+            android:gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/cellBG"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:textSize="50sp"
+            android:gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/cellBG"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:textSize="50sp"
+            android:gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/cellBG"
+            android:layout_margin="10dp"
+            />
+
+    </GridLayout>
+
+</LinearLayout>
