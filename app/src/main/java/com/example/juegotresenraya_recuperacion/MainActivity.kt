@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
 
   private val tableState = Array(9) { _ -> "" }
 
+  private var gameEnded = false
+
   private var playerTurn: Int by observable(1) { property, oldValue, newValue ->
     this.changeTurnMessage(newValue)
   }
@@ -36,6 +38,8 @@ class MainActivity : AppCompatActivity() {
     // Bind click listener for all the cells
     this.binding.table.forEach { view ->
       view.setOnClickListener {
+        if (this.gameEnded) return@setOnClickListener
+
         val index = this.binding.table.indexOfChild(view)
         if (this.tableState[index] != "") return@setOnClickListener
 
@@ -43,7 +47,8 @@ class MainActivity : AppCompatActivity() {
 
         val winner = this.getWinner()
         if (winner != -1) {
-          this.alert("Player ${this.playerTurn} wins!!", false) { this.resetGame() }
+          this.gameEnded = true
+          this.alert("Player ${winner} wins!!", false) { this.resetGame() }
           return@setOnClickListener
         }
 
@@ -100,6 +105,7 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun resetGame() {
+    this.gameEnded = false
     this.playerTurn = 1
     this.changeTurnMessage(this.playerTurn)
     this.tableState.fill("")
